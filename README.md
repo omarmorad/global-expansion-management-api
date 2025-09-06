@@ -96,13 +96,12 @@ cp .env.example .env
 # Edit .env with your configuration
 ```
 
-3. **Start MongoDB** (if running locally)
+3. **Start MongoDB** (if not already running)
 
 ```bash
-# Using Docker
-docker run -d -p 27017:27017 --name mongodb mongo:7
-
-# Or install MongoDB locally
+# Ensure your local MongoDB instance is running
+# For example, on macOS/Linux with Homebrew: brew services start mongodb-community
+# For Windows, start the MongoDB service from services.msc or mongod.exe
 ```
 
 4. **Seed the databases**
