@@ -29,7 +29,7 @@ export class ResearchService {
       .exec();
   }
 
-  async findOne(id: string): Promise<ResearchDocument> {
+  async findOne(id: string): Promise<ResearchDocument | null> {
     return this.researchDocumentModel.findById(id).exec();
   }
 
@@ -84,7 +84,7 @@ export class ResearchService {
     await this.researchDocumentModel.findByIdAndDelete(id).exec();
   }
 
-  async update(id: string, updateData: Partial<CreateResearchDocumentDto>): Promise<ResearchDocument> {
+  async update(id: string, updateData: Partial<CreateResearchDocumentDto>): Promise<ResearchDocument | null> {
     return this.researchDocumentModel
       .findByIdAndUpdate(id, updateData, { new: true })
       .exec();

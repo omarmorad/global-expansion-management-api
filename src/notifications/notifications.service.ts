@@ -20,7 +20,7 @@ export class NotificationsService {
     const smtpPass = this.configService.get('SMTP_PASS');
 
     if (smtpHost && smtpUser && smtpPass) {
-      this.transporter = nodemailer.createTransporter({
+      this.transporter = nodemailer.createTransport({
         host: smtpHost,
         port: smtpPort,
         secure: smtpPort === 465,
