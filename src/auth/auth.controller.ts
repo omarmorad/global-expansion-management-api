@@ -1,18 +1,22 @@
-import { Controller, Post, UseGuards, Request, Get } from '@nestjs/common';
+import { Controller, Post, UseGuards, Request, Get, Body, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { CreateClientDto } from './dto/create-client.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Post('register')
+  async register(@Body(ValidationPipe) createClientDto: CreateClientDto) {
+    return this.authService.register(createClientDto);
+  }
+
   @Post('login')
-  async login(@Request() req) {
-    // This is a placeholder. In a real app, you'd validate user credentials here.
-    // For now, we'll just assume a valid user for demonstration.
-    const user = { userId: 1, username: req.body.username || 'testuser' };
-    return this.authService.login(user);
+  async login(@Body(ValidationPipe) loginDto: LoginDto) {
+    return this.authService.login(loginDto);
   }
 
   @UseGuards(JwtAuthGuard)
