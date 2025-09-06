@@ -3,13 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Match } from '../entities/match.entity';
 import { Vendor } from '../entities/vendor.entity';
-import { Project } from '../entities/project.entity';
+import { Project, ProjectStatus } from '../entities/project.entity';
 import { ResearchService } from '../research/research.service';
 
-interface TopVendorAnalytics {
+export interface TopVendorAnalytics {
   country: string;
   topVendors: {
-    vendor: Vendor;
+    vendor: Vendor | null;
     avgMatchScore: number;
     matchCount: number;
   }[];
@@ -111,7 +111,7 @@ export class AnalyticsService {
   async getProjectStats(): Promise<any> {
     const totalProjects = await this.projectRepository.count();
     const activeProjects = await this.projectRepository.count({
-      where: { status: 'active' },
+      where: { status: ProjectStatus.ACTIVE },
     });
 
     const projectsByCountry = await this.projectRepository

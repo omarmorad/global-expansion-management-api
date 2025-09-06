@@ -10,7 +10,7 @@ export class AnalyticsController {
   constructor(private readonly analyticsService: AnalyticsService) {}
 
   @Get('top-vendors')
-  async getTopVendors() {
+  async getTopVendors(): Promise<any> {
     return this.analyticsService.getTopVendorsByCountry();
   }
 
