@@ -1,17 +1,27 @@
 import { connect, connection } from 'mongoose';
+import * as dotenv from 'dotenv';
 import { ResearchDocument, ResearchDocumentSchema } from '../schemas/research-document.schema';
+
+// Load environment variables
+const envPath = process.cwd() + '/.env';
+dotenv.config({ path: envPath });
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/global_expansion_docs';
 
 async function seedMongoDB() {
   try {
+    console.log('Connecting to MongoDB at:', mongoUri);
     await connect(mongoUri);
     console.log('Connected to MongoDB');
+    console.log(`Connected to database: ${connection.name}`);
 
     const ResearchDocumentModel = connection.model('ResearchDocument', ResearchDocumentSchema);
+    console.log(`Using collection: ${ResearchDocumentModel.collection.name}`);
 
     // Clear existing documents
+    console.log('Clearing existing documents...');
     await ResearchDocumentModel.deleteMany({});
+    console.log('Existing documents cleared');
 
     // Sample research documents
     const documents = [
@@ -65,8 +75,13 @@ async function seedMongoDB() {
       },
     ];
 
+    console.log('Inserting documents...');
     const savedDocuments = await ResearchDocumentModel.insertMany(documents);
     console.log(`Seeded ${savedDocuments.length} research documents`);
+
+    // Verify insertion
+    const count = await ResearchDocumentModel.countDocuments();
+    console.log(`Verified ${count} documents in database`);
 
     await connection.close();
     console.log('MongoDB connection closed');
