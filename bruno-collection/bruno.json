@@ -1,0 +1,6 @@
+{
+  "version": "1",
+  "name": "Global Expansion Management API",
+  "type": "collection",
+  "ignore": ["node_modules", ".git"]
+}
