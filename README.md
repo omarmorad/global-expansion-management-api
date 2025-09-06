@@ -101,7 +101,7 @@ cp .env.example .env
 ```bash
 # Ensure your local MongoDB instance is running
 # For example, on macOS/Linux with Homebrew: brew services start mongodb-community
-# For Windows, start the MongoDB service from services.msc or mongod.exe
+# For Windows, start the MongoDB service from services.msc or mongod.exe or using mongosh
 ```
 
 4. **Seed the databases**
