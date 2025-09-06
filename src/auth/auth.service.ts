@@ -75,7 +75,7 @@ export class AuthService {
     return result;
   }
 
-  async findById(id: number): Promise<Client | undefined> {
+  async findById(id: number): Promise<Client | null> {
     return this.clientRepository.findOne({ where: { id } });
   }
 }
