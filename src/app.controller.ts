@@ -10,7 +10,8 @@ export class AppController {
     return {
       name: 'Global Expansion Management API',
       version: '1.0.0',
-      description: 'Backend system for managing global expansion projects and vendor matching',
+      description:
+        'Backend system for managing global expansion projects and vendor matching',
       endpoints: {
         auth: '/api/auth',
         projects: '/api/projects',

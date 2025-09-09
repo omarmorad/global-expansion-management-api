@@ -30,15 +30,24 @@ export class NotificationsService {
         },
       });
     } else {
-      this.logger.warn('SMTP configuration not found. Email notifications will be mocked.');
+      this.logger.warn(
+        'SMTP configuration not found. Email notifications will be mocked.',
+      );
     }
   }
 
-  async sendMatchNotification(project: Project, vendor: Vendor, score: number): Promise<void> {
-    const enableNotifications = this.configService.get('ENABLE_EMAIL_NOTIFICATIONS', 'true') === 'true';
-    
+  async sendMatchNotification(
+    project: Project,
+    vendor: Vendor,
+    score: number,
+  ): Promise<void> {
+    const enableNotifications =
+      this.configService.get('ENABLE_EMAIL_NOTIFICATIONS', 'true') === 'true';
+
     if (!enableNotifications) {
-      this.logger.log(`Mock notification: New match for project ${project.id} with vendor ${vendor.name} (score: ${score})`);
+      this.logger.log(
+        `Mock notification: New match for project ${project.id} with vendor ${vendor.name} (score: ${score})`,
+      );
       return;
     }
 
@@ -60,14 +69,21 @@ export class NotificationsService {
     try {
       if (this.transporter && project.client?.contact_email) {
         await this.transporter.sendMail({
-          from: this.configService.get('FROM_EMAIL', 'noreply@expanders360.com'),
+          from: this.configService.get(
+            'FROM_EMAIL',
+            'noreply@expanders360.com',
+          ),
           to: project.client.contact_email,
           subject,
           html,
         });
-        this.logger.log(`Match notification sent to ${project.client.contact_email}`);
+        this.logger.log(
+          `Match notification sent to ${project.client.contact_email}`,
+        );
       } else {
-        this.logger.log(`Mock email sent: ${subject} to ${project.client?.contact_email || 'unknown'}`);
+        this.logger.log(
+          `Mock email sent: ${subject} to ${project.client?.contact_email || 'unknown'}`,
+        );
       }
     } catch (error) {
       this.logger.error(`Failed to send match notification: ${error.message}`);
@@ -88,11 +104,17 @@ export class NotificationsService {
     `;
 
     try {
-      const adminEmail = this.configService.get('ADMIN_EMAIL', 'admin@expanders360.com');
-      
+      const adminEmail = this.configService.get(
+        'ADMIN_EMAIL',
+        'admin@expanders360.com',
+      );
+
       if (this.transporter) {
         await this.transporter.sendMail({
-          from: this.configService.get('FROM_EMAIL', 'noreply@expanders360.com'),
+          from: this.configService.get(
+            'FROM_EMAIL',
+            'noreply@expanders360.com',
+          ),
           to: adminEmail,
           subject,
           html,
@@ -118,11 +140,17 @@ export class NotificationsService {
     `;
 
     try {
-      const adminEmail = this.configService.get('ADMIN_EMAIL', 'admin@expanders360.com');
-      
+      const adminEmail = this.configService.get(
+        'ADMIN_EMAIL',
+        'admin@expanders360.com',
+      );
+
       if (this.transporter) {
         await this.transporter.sendMail({
-          from: this.configService.get('FROM_EMAIL', 'noreply@expanders360.com'),
+          from: this.configService.get(
+            'FROM_EMAIL',
+            'noreply@expanders360.com',
+          ),
           to: adminEmail,
           subject,
           html,

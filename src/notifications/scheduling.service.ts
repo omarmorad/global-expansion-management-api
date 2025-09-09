@@ -24,7 +24,7 @@ export class SchedulingService {
   @Cron(CronExpression.EVERY_DAY_AT_2AM)
   async refreshDailyMatches() {
     this.logger.log('Starting daily match refresh...');
-    
+
     try {
       // Get all active projects
       const activeProjects = await this.projectRepository.find({
@@ -39,9 +39,12 @@ export class SchedulingService {
         const vendors = await this.vendorRepository
           .createQueryBuilder('vendor')
           .where('vendor.is_active = :active', { active: true })
-          .andWhere('JSON_EXTRACT(vendor.countries_supported, "$") LIKE :country', {
-            country: `%"${project.country}"%`,
-          })
+          .andWhere(
+            'JSON_EXTRACT(vendor.countries_supported, "$") LIKE :country',
+            {
+              country: `%"${project.country}"%`,
+            },
+          )
           .getMany();
 
         // Clear existing matches for this project
@@ -62,15 +65,20 @@ export class SchedulingService {
 
             // Send notification for high-score matches
             if (score >= 8) {
-              await this.notificationsService.sendMatchNotification(project, vendor, score);
+              await this.notificationsService.sendMatchNotification(
+                project,
+                vendor,
+                score,
+              );
             }
           }
         }
       }
 
-      this.logger.log(`Daily match refresh completed. ${totalMatches} matches generated.`);
+      this.logger.log(
+        `Daily match refresh completed. ${totalMatches} matches generated.`,
+      );
       await this.notificationsService.sendDailyMatchSummary(totalMatches);
-
     } catch (error) {
       this.logger.error(`Daily match refresh failed: ${error.message}`);
     }
@@ -79,7 +87,7 @@ export class SchedulingService {
   @Cron(CronExpression.EVERY_DAY_AT_9AM)
   async checkSlaViolations() {
     this.logger.log('Checking for SLA violations...');
-    
+
     try {
       // Find vendors with potentially expired SLAs
       const expiredSlaVendors = await this.vendorRepository.find({
@@ -91,8 +99,9 @@ export class SchedulingService {
         await this.notificationsService.sendSlaViolationAlert(vendor);
       }
 
-      this.logger.log(`SLA check completed. ${expiredSlaVendors.length} violations found.`);
-
+      this.logger.log(
+        `SLA check completed. ${expiredSlaVendors.length} violations found.`,
+      );
     } catch (error) {
       this.logger.error(`SLA check failed: ${error.message}`);
     }
@@ -105,8 +114,8 @@ export class SchedulingService {
     }
 
     // Calculate service overlap
-    const serviceOverlap = project.services_needed.filter(service =>
-      vendor.services_offered.includes(service)
+    const serviceOverlap = project.services_needed.filter((service) =>
+      vendor.services_offered.includes(service),
     ).length;
 
     if (serviceOverlap === 0) {

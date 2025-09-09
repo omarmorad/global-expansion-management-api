@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ResearchDocument, ResearchDocumentDocument } from '../schemas/research-document.schema';
+import {
+  ResearchDocument,
+  ResearchDocumentDocument,
+} from '../schemas/research-document.schema';
 import { CreateResearchDocumentDto } from './dto/create-research-document.dto';
 import { SearchResearchDocumentDto } from './dto/search-research-document.dto';
 
@@ -12,7 +15,9 @@ export class ResearchService {
     private researchDocumentModel: Model<ResearchDocumentDocument>,
   ) {}
 
-  async create(createResearchDocumentDto: CreateResearchDocumentDto): Promise<ResearchDocument> {
+  async create(
+    createResearchDocumentDto: CreateResearchDocumentDto,
+  ): Promise<ResearchDocument> {
     const document = new this.researchDocumentModel({
       ...createResearchDocumentDto,
       tags: createResearchDocumentDto.tags || [],
@@ -23,17 +28,16 @@ export class ResearchService {
   }
 
   async findAll(): Promise<ResearchDocument[]> {
-    return this.researchDocumentModel
-      .find()
-      .sort({ uploadedAt: -1 })
-      .exec();
+    return this.researchDocumentModel.find().sort({ uploadedAt: -1 }).exec();
   }
 
   async findOne(id: string): Promise<ResearchDocument | null> {
     return this.researchDocumentModel.findById(id).exec();
   }
 
-  async search(searchDto: SearchResearchDocumentDto): Promise<ResearchDocument[]> {
+  async search(
+    searchDto: SearchResearchDocumentDto,
+  ): Promise<ResearchDocument[]> {
     const query: any = {};
 
     if (searchDto.projectId) {
@@ -75,7 +79,7 @@ export class ResearchService {
     // For now, we'll use tags to identify country-related documents
     return this.researchDocumentModel
       .countDocuments({
-        tags: { $in: [country.toLowerCase(), country] }
+        tags: { $in: [country.toLowerCase(), country] },
       })
       .exec();
   }
@@ -84,7 +88,10 @@ export class ResearchService {
     await this.researchDocumentModel.findByIdAndDelete(id).exec();
   }
 
-  async update(id: string, updateData: Partial<CreateResearchDocumentDto>): Promise<ResearchDocument | null> {
+  async update(
+    id: string,
+    updateData: Partial<CreateResearchDocumentDto>,
+  ): Promise<ResearchDocument | null> {
     return this.researchDocumentModel
       .findByIdAndUpdate(id, updateData, { new: true })
       .exec();

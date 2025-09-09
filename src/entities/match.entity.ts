@@ -1,4 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn, Index } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  JoinColumn,
+  Index,
+} from 'typeorm';
 import { Project } from './project.entity';
 import { Vendor } from './vendor.entity';
 
@@ -17,11 +26,11 @@ export class Match {
   @Column('decimal', { precision: 5, scale: 2 })
   score: number;
 
-  @ManyToOne(() => Project, project => project.matches)
+  @ManyToOne(() => Project, (project) => project.matches)
   @JoinColumn({ name: 'project_id' })
   project: Project;
 
-  @ManyToOne(() => Vendor, vendor => vendor.matches)
+  @ManyToOne(() => Vendor, (vendor) => vendor.matches)
   @JoinColumn({ name: 'vendor_id' })
   vendor: Vendor;
 

@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Match } from './match.entity';
 
 @Entity('vendors')
@@ -24,7 +31,7 @@ export class Vendor {
   @Column({ default: true })
   is_active: boolean;
 
-  @OneToMany(() => Match, match => match.vendor)
+  @OneToMany(() => Match, (match) => match.vendor)
   matches: Match[];
 
   @CreateDateColumn()

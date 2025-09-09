@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Project } from './project.entity';
 
 @Entity('clients')
@@ -18,7 +25,7 @@ export class Client {
   @Column({ default: 'client' })
   role: string;
 
-  @OneToMany(() => Project, project => project.client)
+  @OneToMany(() => Project, (project) => project.client)
   projects: Project[];
 
   @CreateDateColumn()

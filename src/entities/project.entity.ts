@@ -1,4 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+  JoinColumn,
+} from 'typeorm';
 import { Client } from './client.entity';
 import { Match } from './match.entity';
 
@@ -6,7 +15,7 @@ export enum ProjectStatus {
   ACTIVE = 'active',
   COMPLETED = 'completed',
   ON_HOLD = 'on_hold',
-  CANCELLED = 'cancelled'
+  CANCELLED = 'cancelled',
 }
 
 @Entity('projects')
@@ -29,15 +38,15 @@ export class Project {
   @Column({
     type: 'text',
     enum: ProjectStatus,
-    default: ProjectStatus.ACTIVE
+    default: ProjectStatus.ACTIVE,
   })
   status: ProjectStatus;
 
-  @ManyToOne(() => Client, client => client.projects)
+  @ManyToOne(() => Client, (client) => client.projects)
   @JoinColumn({ name: 'client_id' })
   client: Client;
 
-  @OneToMany(() => Match, match => match.project)
+  @OneToMany(() => Match, (match) => match.project)
   matches: Match[];
 
   @CreateDateColumn()

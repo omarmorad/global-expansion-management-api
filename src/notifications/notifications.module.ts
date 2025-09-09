@@ -8,10 +8,7 @@ import { Vendor } from '../entities/vendor.entity';
 import { Match } from '../entities/match.entity';
 
 @Module({
-  imports: [
-    ConfigModule,
-    TypeOrmModule.forFeature([Project, Vendor, Match]),
-  ],
+  imports: [ConfigModule, TypeOrmModule.forFeature([Project, Vendor, Match])],
   providers: [NotificationsService, SchedulingService],
   exports: [NotificationsService, SchedulingService],
 })

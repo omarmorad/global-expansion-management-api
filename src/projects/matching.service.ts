@@ -55,7 +55,11 @@ export class MatchingService {
         matches.push(savedMatch);
 
         // Send notification
-        await this.notificationsService.sendMatchNotification(project, vendor, score);
+        await this.notificationsService.sendMatchNotification(
+          project,
+          vendor,
+          score,
+        );
       }
     }
 
@@ -69,8 +73,8 @@ export class MatchingService {
     }
 
     // Calculate service overlap
-    const serviceOverlap = project.services_needed.filter(service =>
-      vendor.services_offered.includes(service)
+    const serviceOverlap = project.services_needed.filter((service) =>
+      vendor.services_offered.includes(service),
     ).length;
 
     if (serviceOverlap === 0) {

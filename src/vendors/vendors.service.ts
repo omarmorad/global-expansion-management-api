@@ -17,7 +17,10 @@ export class VendorsService {
       ...createVendorDto,
       rating: createVendorDto.rating || 0,
       response_sla_hours: createVendorDto.response_sla_hours || 24,
-      is_active: createVendorDto.is_active !== undefined ? createVendorDto.is_active : true,
+      is_active:
+        createVendorDto.is_active !== undefined
+          ? createVendorDto.is_active
+          : true,
     });
 
     return this.vendorRepository.save(vendor);

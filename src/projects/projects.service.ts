@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Project, ProjectStatus } from '../entities/project.entity';
@@ -15,8 +19,13 @@ export class ProjectsService {
     private clientRepository: Repository<Client>,
   ) {}
 
-  async create(createProjectDto: CreateProjectDto, clientId: number): Promise<Project> {
-    const client = await this.clientRepository.findOne({ where: { id: clientId } });
+  async create(
+    createProjectDto: CreateProjectDto,
+    clientId: number,
+  ): Promise<Project> {
+    const client = await this.clientRepository.findOne({
+      where: { id: clientId },
+    });
     if (!client) {
       throw new NotFoundException('Client not found');
     }
@@ -31,7 +40,8 @@ export class ProjectsService {
   }
 
   async findAll(clientId?: number, role?: string): Promise<Project[]> {
-    const queryBuilder = this.projectRepository.createQueryBuilder('project')
+    const queryBuilder = this.projectRepository
+      .createQueryBuilder('project')
       .leftJoinAndSelect('project.client', 'client')
       .leftJoinAndSelect('project.matches', 'matches')
       .leftJoinAndSelect('matches.vendor', 'vendor');
@@ -43,8 +53,13 @@ export class ProjectsService {
     return queryBuilder.getMany();
   }
 
-  async findOne(id: number, clientId?: number, role?: string): Promise<Project> {
-    const queryBuilder = this.projectRepository.createQueryBuilder('project')
+  async findOne(
+    id: number,
+    clientId?: number,
+    role?: string,
+  ): Promise<Project> {
+    const queryBuilder = this.projectRepository
+      .createQueryBuilder('project')
       .leftJoinAndSelect('project.client', 'client')
       .leftJoinAndSelect('project.matches', 'matches')
       .leftJoinAndSelect('matches.vendor', 'vendor')
@@ -62,9 +77,14 @@ export class ProjectsService {
     return project;
   }
 
-  async update(id: number, updateProjectDto: UpdateProjectDto, clientId?: number, role?: string): Promise<Project> {
+  async update(
+    id: number,
+    updateProjectDto: UpdateProjectDto,
+    clientId?: number,
+    role?: string,
+  ): Promise<Project> {
     const project = await this.findOne(id, clientId, role);
-    
+
     if (role !== 'admin' && project.client_id !== clientId) {
       throw new ForbiddenException('You can only update your own projects');
     }
@@ -75,7 +95,7 @@ export class ProjectsService {
 
   async remove(id: number, clientId?: number, role?: string): Promise<void> {
     const project = await this.findOne(id, clientId, role);
-    
+
     if (role !== 'admin' && project.client_id !== clientId) {
       throw new ForbiddenException('You can only delete your own projects');
     }

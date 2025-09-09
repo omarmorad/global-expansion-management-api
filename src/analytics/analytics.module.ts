@@ -8,10 +8,7 @@ import { Project } from '../entities/project.entity';
 import { ResearchModule } from '../research/research.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Match, Vendor, Project]),
-    ResearchModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Match, Vendor, Project]), ResearchModule],
   controllers: [AnalyticsController],
   providers: [AnalyticsService],
 })

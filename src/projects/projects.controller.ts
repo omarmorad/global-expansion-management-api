@@ -27,7 +27,10 @@ export class ProjectsController {
   ) {}
 
   @Post()
-  create(@Body(ValidationPipe) createProjectDto: CreateProjectDto, @Request() req) {
+  create(
+    @Body(ValidationPipe) createProjectDto: CreateProjectDto,
+    @Request() req,
+  ) {
     return this.projectsService.create(createProjectDto, req.user.userId);
   }
 
@@ -47,7 +50,12 @@ export class ProjectsController {
     @Body(ValidationPipe) updateProjectDto: UpdateProjectDto,
     @Request() req,
   ) {
-    return this.projectsService.update(+id, updateProjectDto, req.user.userId, req.user.role);
+    return this.projectsService.update(
+      +id,
+      updateProjectDto,
+      req.user.userId,
+      req.user.role,
+    );
   }
 
   @Delete(':id')

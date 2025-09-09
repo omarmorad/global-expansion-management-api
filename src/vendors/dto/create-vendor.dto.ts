@@ -1,4 +1,12 @@
-import { IsString, IsArray, IsNumber, IsBoolean, IsOptional, Min, Max } from 'class-validator';
+import {
+  IsString,
+  IsArray,
+  IsNumber,
+  IsBoolean,
+  IsOptional,
+  Min,
+  Max,
+} from 'class-validator';
 
 export class CreateVendorDto {
   @IsString()

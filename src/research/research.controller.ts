@@ -20,7 +20,9 @@ export class ResearchController {
   constructor(private readonly researchService: ResearchService) {}
 
   @Post()
-  create(@Body(ValidationPipe) createResearchDocumentDto: CreateResearchDocumentDto) {
+  create(
+    @Body(ValidationPipe) createResearchDocumentDto: CreateResearchDocumentDto,
+  ) {
     return this.researchService.create(createResearchDocumentDto);
   }
 

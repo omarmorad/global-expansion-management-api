@@ -35,7 +35,10 @@ import { Match } from './entities/match.entity';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get('MONGODB_URI', 'mongodb://localhost:27017/global_expansion_docs'),
+        uri: configService.get(
+          'MONGODB_URI',
+          'mongodb://localhost:27017/global_expansion_docs',
+        ),
       }),
       inject: [ConfigService],
     }),

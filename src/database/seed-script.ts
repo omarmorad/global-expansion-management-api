@@ -17,9 +17,9 @@ async function runSeeds() {
   try {
     await AppDataSource.initialize();
     console.log('Database connection established');
-    
+
     await seedDatabase(AppDataSource);
-    
+
     await AppDataSource.destroy();
     console.log('Database connection closed');
   } catch (error) {

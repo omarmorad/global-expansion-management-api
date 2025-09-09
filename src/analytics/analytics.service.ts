@@ -71,11 +71,12 @@ export class AnalyticsService {
             avgMatchScore: parseFloat(stat.avgScore),
             matchCount: parseInt(stat.matchCount),
           };
-        })
+        }),
       );
 
       // Count research documents for expansion projects in this country
-      const researchDocumentCount = await this.researchService.countByCountry(country);
+      const researchDocumentCount =
+        await this.researchService.countByCountry(country);
 
       analytics.push({
         country,

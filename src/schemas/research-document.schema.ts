@@ -30,4 +30,5 @@ export class ResearchDocument {
   fileSize?: number;
 }
 
-export const ResearchDocumentSchema = SchemaFactory.createForClass(ResearchDocument);
+export const ResearchDocumentSchema =
+  SchemaFactory.createForClass(ResearchDocument);

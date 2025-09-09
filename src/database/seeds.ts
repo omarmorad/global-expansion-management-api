@@ -9,27 +9,42 @@ export async function seedDatabase(dataSource: DataSource) {
 
   // Seed Clients
   const clientRepository = dataSource.getRepository(Client);
-  
-  const adminClient = clientRepository.create({
-    company_name: 'Expanders360 Admin',
+
+  let adminClient = await clientRepository.findOneBy({
     contact_email: 'admin@expanders360.com',
-    password: await bcrypt.hash('admin123', 10),
-    role: 'admin',
   });
+  if (!adminClient) {
+    adminClient = clientRepository.create({
+      company_name: 'Expanders360 Admin',
+      contact_email: 'admin@expanders360.com',
+      password: await bcrypt.hash('admin123', 10),
+      role: 'admin',
+    });
+    await clientRepository.save(adminClient);
+    console.log('Admin client seeded.');
+  } else {
+    console.log('Admin client already exists.');
+  }
 
-  const testClient = clientRepository.create({
-    company_name: 'TechCorp International',
+  let testClient = await clientRepository.findOneBy({
     contact_email: 'client@techcorp.com',
-    password: await bcrypt.hash('client123', 10),
-    role: 'client',
   });
-
-  const savedClients = await clientRepository.save([adminClient, testClient]);
-  console.log('Clients seeded:', savedClients.length);
+  if (!testClient) {
+    testClient = clientRepository.create({
+      company_name: 'TechCorp International',
+      contact_email: 'client@techcorp.com',
+      password: await bcrypt.hash('client123', 10),
+      role: 'client',
+    });
+    await clientRepository.save(testClient);
+    console.log('Test client seeded.');
+  } else {
+    console.log('Test client already exists.');
+  }
 
   // Seed Vendors
   const vendorRepository = dataSource.getRepository(Vendor);
-  
+
   const vendors = [
     {
       name: 'Global Expansion Partners',
@@ -78,7 +93,7 @@ export async function seedDatabase(dataSource: DataSource) {
 
   // Seed Projects
   const projectRepository = dataSource.getRepository(Project);
-  
+
   const projects = [
     {
       client_id: testClient.id,

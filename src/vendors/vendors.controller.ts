@@ -39,7 +39,10 @@ export class VendorsController {
 
   @Patch(':id')
   @Roles('admin')
-  update(@Param('id') id: string, @Body(ValidationPipe) updateVendorDto: UpdateVendorDto) {
+  update(
+    @Param('id') id: string,
+    @Body(ValidationPipe) updateVendorDto: UpdateVendorDto,
+  ) {
     return this.vendorsService.update(+id, updateVendorDto);
   }
 
