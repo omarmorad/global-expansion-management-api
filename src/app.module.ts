@@ -21,6 +21,17 @@ import { Match } from './entities/match.entity';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'sqlite',
+        database: process.env.NODE_ENV === 'production' ? '/tmp/database.sqlite' : configService.get('DATABASE_PATH', './database.sqlite'),
+        entities: [Client, Project, Vendor, Match],
+        synchronize: process.env.NODE_ENV !== 'production', // Synchronize only in development
+        logging: process.env.NODE_ENV === 'development',
+      }),
+      inject: [ConfigService],
+    }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
