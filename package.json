@@ -21,8 +21,7 @@
     "seed:sqlite": "ts-node src/database/seed-script.ts",
     "seed:mongo": "ts-node src/database/mongo-seeds.ts",
     "seed:all": "npm run seed:sqlite && npm run seed:mongo",
-    "postbuild": "npm run seed:sqlite:prod",
-    "seed:sqlite:prod": "node dist/database/seed-script.js"
+    "seed:prod": "node src/database/seed-production.js"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.0",
