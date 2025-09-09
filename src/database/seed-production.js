@@ -2,10 +2,10 @@ const { DataSource } = require('typeorm');
 const bcrypt = require('bcrypt');
 
 // Import entities (compiled JS versions)
-const { Client } = require('../entities/client.entity');
-const { Project } = require('../entities/project.entity');
-const { Vendor } = require('../entities/vendor.entity');
-const { Match } = require('../entities/match.entity');
+const { Client } = require('../../dist/entities/client.entity');
+const { Project } = require('../../dist/entities/project.entity');
+const { Vendor } = require('../../dist/entities/vendor.entity');
+const { Match } = require('../../dist/entities/match.entity');
 
 const AppDataSource = new DataSource({
   type: 'sqlite',
