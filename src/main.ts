@@ -7,7 +7,9 @@ async function bootstrap() {
   
   // Enable CORS for frontend integration
   app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3001',
+    origin: process.env.NODE_ENV === 'production' 
+      ? ['https://your-frontend-domain.com', 'https://your-render-app.onrender.com']
+      : ['http://localhost:3001', 'http://localhost:3000'],
     credentials: true,
   });
   
@@ -21,11 +23,22 @@ async function bootstrap() {
   // API prefix
   app.setGlobalPrefix('api');
   
-  const port = process.env.PORT || 3000;
-  await app.listen(port);
+  // Create data directory in production
+  if (process.env.NODE_ENV === 'production') {
+    const fs = require('fs');
+    const path = require('path');
+    const dataDir = path.dirname(process.env.DATABASE_PATH || './data/database.sqlite');
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+  }
   
-  console.log(`🚀 Application is running on: http://localhost:${port}/api`);
-  console.log(`📚 API Documentation available at: http://localhost:${port}/api`);
+  const port = process.env.PORT || 3000;
+  await app.listen(port, '0.0.0.0');
+  
+  console.log(`🚀 Application is running on port: ${port}`);
+  console.log(`📚 API Documentation available at: /api`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
 }
 
 bootstrap();
